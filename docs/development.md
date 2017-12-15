@@ -10,22 +10,22 @@ nvm install v4
 
 ## Fork and Download Repositories
 
-To develop litecore-node:
+To develop digibyte-node:
 
 ```bash
 cd ~
-git clone git@github.com:<yourusername>/litecore-node.git
-git clone git@github.com:<yourusername>/litecore-lib.git
+git clone git@github.com:<yourusername>/digibyte-node.git
+git clone git@github.com:<yourusername>/digibyte.git
 ```
 
-To develop litecoin or to compile from source:
+To develop digibyte or to compile from source:
 
 ```bash
-git clone git@github.com:<yourusername>/litecoin.git
+git clone git@github.com:<yourusername>/digibyte.git
 git fetch origin <branchname>:<branchname>
 git checkout <branchname>
 ```
-**Note**: See litecoin documentation for building litecoin on your platform.
+**Note**: See digibyte documentation for building digibyte on your platform.
 
 
 ## Install Development Dependencies
@@ -46,27 +46,27 @@ brew install zeromq
 ## Install and Symlink
 
 ```bash
-cd litecore-lib
+cd digibyte
 npm install
-cd ../litecore-node
+cd ../digibyte-node
 npm install
 ```
-**Note**: If you get a message about not being able to download litecoin distribution, you'll need to compile litecoind from source, and setup your configuration to use that version.
+**Note**: If you get a message about not being able to download digibyte distribution, you'll need to compile digibyted from source, and setup your configuration to use that version.
 
 
-We now will setup symlinks in `litecore-node` *(repeat this for any other modules you're planning on developing)*:
+We now will setup symlinks in `digibyte-node` *(repeat this for any other modules you're planning on developing)*:
 ```bash
 cd node_modules
-rm -rf litecore-lib
-ln -s ~/litecore-lib
-rm -rf bitcoind-rpc
-ln -s ~/bitcoind-rpc
+rm -rf digibyte
+ln -s ~/digibyte
+rm -rf digibyted-rpc
+ln -s ~/digibyted-rpc
 ```
 
-And if you're compiling or developing litecoin:
+And if you're compiling or developing digibyte:
 ```bash
 cd ../bin
-ln -sf ~/litecoin/src/litecoind
+ln -sf ~/digibyte/src/digibyted
 ```
 
 ## Run Tests
@@ -78,7 +78,7 @@ npm install mocha -g
 
 To run all test suites:
 ```bash
-cd litecore-node
+cd digibyte-node
 npm run regtest
 npm run test
 ```
@@ -102,27 +102,27 @@ cd ~
 mkdir devnode
 cd devnode
 mkdir node_modules
-touch litecore-node.json
+touch digibyte-node.json
 touch package.json
 ```
 
-Edit `litecore-node.json` with something similar to:
+Edit `digibyte-node.json` with something similar to:
 ```json
 {
   "network": "livenet",
   "port": 3001,
   "services": [
-    "litecoind",
+    "digibyted",
     "web",
     "insight-api",
     "insight-ui",
     "<additional_service>"
   ],
   "servicesConfig": {
-    "litecoind": {
+    "digibyted": {
       "spawn": {
-        "datadir": "/home/<youruser>/.litecoin",
-        "exec": "/home/<youruser>/litecoin/src/litecoind"
+        "datadir": "/home/<youruser>/.digibyte",
+        "exec": "/home/<youruser>/digibyte/src/digibyted"
       }
     }
   }
@@ -135,13 +135,13 @@ Setup symlinks for all of the services and dependencies:
 
 ```bash
 cd node_modules
-ln -s ~/litecore-lib
-ln -s ~/litecore-node
+ln -s ~/digibyte
+ln -s ~/digibyte-node
 ln -s ~/insight-api
 ln -s ~/insight-ui
 ```
 
-Make sure that the `<datadir>/litecoin.conf` has the necessary settings, for example:
+Make sure that the `<datadir>/digibyte.conf` has the necessary settings, for example:
 ```
 server=1
 whitelist=127.0.0.1
@@ -149,14 +149,14 @@ txindex=1
 addressindex=1
 timestampindex=1
 spentindex=1
-zmqpubrawtx=tcp://127.0.0.1:29332
-zmqpubhashblock=tcp://127.0.0.1:29332
+zmqpubrawtx=tcp://127.0.0.1:214022
+zmqpubhashblock=tcp://127.0.0.1:214022
 rpcallowip=127.0.0.1
-rpcuser=litecoin
+rpcuser=digibyte
 rpcpassword=local321
 ```
 
 From within the `devnode` directory with the configuration file, start the node:
 ```bash
-../litecore-node/bin/litecore-node start
+../digibyte-node/bin/digibyte-node start
 ```
