@@ -5,7 +5,7 @@ digibyte Node
 [![Build Status](https://img.shields.io/travis/digibyte-project/digibyte-node.svg?branch=master&style=flat-square)](https://travis-ci.org/digibyte-project/digibyte-node)
 [![Coverage Status](https://img.shields.io/coveralls/digibyte-project/digibyte-node.svg?style=flat-square)](https://coveralls.io/r/digibyte-project/digibyte-node)
 
-A DigiByte full node for building applications and services with Node.js. A node is extensible and can be configured to run additional services. At the minimum a node has an interface to [DigiByte Core with additional indexing](https://github.com/digibyte-project/digibyte-digibyte) for more advanced address queries. Additional services can be enabled to make a node more useful such as exposing new APIs, running a block explorer and wallet service.
+A DigiByte full node for building applications and services with Node.js. A node is extensible and can be configured to run additional services. At the minimum a node has an interface to [DigiByte Core with additional indexing](https://github.com/digibyte/digibyte) for more advanced address queries. Additional services can be enabled to make a node more useful such as exposing new APIs, running a block explorer and wallet service.
 
 ## Install
 
@@ -14,7 +14,7 @@ npm install -g digibyte-node
 digibyte-node start
 ```
 
-Note: For your convenience, we distribute bitcoind binaries for x86_64 Linux and x86_64 Mac OS X. Upon npm install, the binaries for your platform will be downloaded. For more detailed installation instructions, or if you want to compile the project yourself, then please see the Bitcore branch of [DigiByte Core with additional indexing](https://github.com/digibyte-project/digibyte-digibyte).
+Note: For your convenience, we distribute bitcoind binaries for x86_64 Linux and x86_64 Mac OS X. Upon npm install, the binaries for your platform will be downloaded. For more detailed installation instructions, or if you want to compile the project yourself, then please see the Bitcore branch of [DigiByte Core](https://github.com/digibyte/digibyte).
 
 ## Prerequisites
 
@@ -41,9 +41,9 @@ This will create a directory with configuration files for your node and install 
 
 There are several add-on services available to extend the functionality of Bitcore:
 
-- [Insight API](https://github.com/bitpay/insight-api)
-- [Insight UI](https://github.com/bitpay/insight-ui)
-- [Bitcore Wallet Service](https://github.com/bitpay/bitcore-wallet-service)
+- [Insight API](https://github.com/digibyte/insight-digibyte-api)
+- [Insight UI](https://github.com/digibyte/insight-digibyte-ui)
+- [Bitcore Wallet Service](https://github.com/digibyte/bitcore-wallet-service)
 
 ## Documentation
 
@@ -58,13 +58,14 @@ There are several add-on services available to extend the functionality of Bitco
 
 ## Contributing
 
-Please send pull requests for bug fixes, code optimization, and ideas for improvement. For more information on how to contribute, please refer to our [CONTRIBUTING](https://github.com/digibyte-project/digibyte/blob/master/CONTRIBUTING.md) file.
+Please send pull requests for bug fixes, code optimization, and ideas for improvement. For more information on how to contribute, please refer to our [CONTRIBUTING](https://github.com/digibyte/digibyte/blob/master/CONTRIBUTING.md) file.
 
 ## License
 
-Code released under [the MIT license](https://github.com/digibyte-project/digibyte-node/blob/master/LICENSE).
+Code released under [the MIT license](https://github.com/digibyte/digibyte-node/blob/master/LICENSE).
 
 Copyright 2016 The DigiByte Core Developers
 
 - bitcore: Copyright (c) 2013-2015 BitPay, Inc. (MIT License)
 - bitcoin: Copyright (c) 2009-2015 Bitcoin Core Developers (MIT License)
+- digibyte: Copyright (C) 2017 DigiByte Core Developers
