@@ -24,6 +24,7 @@ coverage/*
 .DS_Store
 bin/bitcoin*
 bin/digibyte*
+!bin/digibyte-node
 bin/SHA256SUMS.asc
 regtest/data/node1/regtest
 regtest/data/node2/regtest
