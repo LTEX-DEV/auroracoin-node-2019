@@ -9,8 +9,12 @@ version="0.13.2"
 url="https://github.com/digicontributer/digibytejs-digibyte-core/releases/download"
 tag="v0.13.2-digibyte"
 
+echo "${platform}" == "linux"
+
 if [ "${platform}" == "linux" ]; then
+    echo "this1"
     if [ "${arch}" == "x86_64" ]; then
+        echo "this"
         tarball_name="digibyte-${version}-x86_64-linux-gnu.tar.gz"
     elif [ "${arch}" == "x86_32" ]; then
         tarball_name="digibyte-${version}-i686-pc-linux-gnu.tar.gz"
