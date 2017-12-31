@@ -6,8 +6,8 @@ root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 platform=`uname -a | awk '{print tolower($1)}'`
 arch=`uname -m`
 version="6.14.2"
-url="https://github.com/digibyte/digibyte/releases/download"
-tag="v6.14.2"
+url="https://github.com/digicontributer/digibyte-node/releases/download"
+tag="v0.13.2-digibyte"
 
 if [ "${platform}" == "linux" ]; then
     if [ "${arch}" == "x86_64" ]; then
