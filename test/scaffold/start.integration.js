@@ -23,7 +23,7 @@ describe('#start', function() {
       var node;
       var TestNode = function(options) {
         options.services[0].should.deep.equal({
-          name: 'bitcoind',
+          name: 'digibyted',
           module: BitcoinService,
           config: {
             spawn: {
@@ -48,10 +48,10 @@ describe('#start', function() {
         path: __dirname,
         config: {
           services: [
-            'bitcoind'
+            'digibyted'
           ],
           servicesConfig: {
-            bitcoind: {
+            digibyted: {
               spawn: {
                 datadir: './data'
               }
@@ -91,7 +91,7 @@ describe('#start', function() {
       var node;
       var TestNode = function(options) {
         options.services[0].should.deep.equal({
-          name: 'bitcoind',
+          name: 'digibyted',
           module: BitcoinService,
           config: {
             param: 'test',
@@ -116,10 +116,10 @@ describe('#start', function() {
         path: __dirname,
         config: {
           services: [
-            'bitcoind'
+            'digibyted'
           ],
           servicesConfig: {
-            'bitcoind': {
+            'digibyted': {
               param: 'test',
               spawn: {
                 datadir: './data'

@@ -26,7 +26,7 @@ var coinbasePrivateKey;
 var privateKey = bitcore.PrivateKey();
 var destKey = bitcore.PrivateKey();
 
-describe('Bitcoind Functionality', function() {
+describe('DigiByted Functionality', function() {
 
   before(function(done) {
     this.timeout(60000);
@@ -63,7 +63,7 @@ describe('Bitcoind Functionality', function() {
       log.info('Waiting for Bitcoin Core to initialize...');
 
       bitcoind.start(function() {
-        log.info('Bitcoind started');
+        log.info('DigiByted started');
 
         client = new BitcoinRPC({
           protocol: 'http',

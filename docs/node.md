@@ -23,7 +23,7 @@ var configuration = {
   network: 'testnet',
   services: [
     {
-      name: 'bitcoind',
+      name: 'digibyted',
       module: Bitcoin,
       config: {}
     }
@@ -37,7 +37,7 @@ node.start(function() {
 });
 
 node.on('ready', function() {
-  console.log('Bitcoin Node Ready');
+  console.log('DigiByte Node Ready');
 });
 
 node.on('error', function(err) {

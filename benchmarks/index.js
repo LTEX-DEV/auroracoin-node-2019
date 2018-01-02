@@ -5,7 +5,7 @@ var bitcoin = require('bitcoin');
 var async = require('async');
 var maxTime = 20;
 
-console.log('Bitcoin Service native interface vs. Bitcoin JSON RPC interface');
+console.log('DigiByte Service native interface vs. DigiByte JSON RPC interface');
 console.log('----------------------------------------------------------------------');
 
 // To run the benchmarks a fully synced Bitcore Core directory is needed. The RPC comands
@@ -43,12 +43,12 @@ bitcoind.start(function(err) {
   if (err) {
     throw err;
   }
-  console.log('Bitcoin Core started');
+  console.log('DigiByte Core started');
 });
 
 bitcoind.on('ready', function() {
 
-  console.log('Bitcoin Core ready');
+  console.log('DigiByte Core ready');
 
   var client = new bitcoin.Client({
     host: 'localhost',
@@ -122,22 +122,22 @@ bitcoind.on('ready', function() {
 
       var suite = new benchmark.Suite();
 
-      suite.add('bitcoind getblock (native)', bitcoindGetBlockNative, {
+      suite.add('digibyted getblock (native)', bitcoindGetBlockNative, {
         defer: true,
         maxTime: maxTime
       });
 
-      suite.add('bitcoind getblock (json rpc)', bitcoindGetBlockJsonRpc, {
+      suite.add('digibyted getblock (json rpc)', bitcoindGetBlockJsonRpc, {
         defer: true,
         maxTime: maxTime
       });
 
-      suite.add('bitcoind gettransaction (native)', bitcoinGetTransactionNative, {
+      suite.add('digibyted gettransaction (native)', bitcoinGetTransactionNative, {
         defer: true,
         maxTime: maxTime
       });
 
-      suite.add('bitcoind gettransaction (json rpc)', bitcoinGetTransactionJsonRpc, {
+      suite.add('digibyted gettransaction (json rpc)', bitcoinGetTransactionJsonRpc, {
         defer: true,
         maxTime: maxTime
       });
