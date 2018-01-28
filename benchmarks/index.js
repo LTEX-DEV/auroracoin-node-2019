@@ -1,7 +1,7 @@
 'use strict';
 
 var benchmark = require('benchmark');
-var bitcoin = require('bitcoin');
+var digibyte = require('digibyte');
 var async = require('async');
 var maxTime = 20;
 
@@ -26,7 +26,7 @@ var fixtureData = {
   ]
 };
 
-var bitcoind = require('../').services.Bitcoin({
+var digibyted = require('../').services.DigiByte({
   node: {
     datadir: process.env.HOME + '/.digibyte',
     network: {
@@ -35,25 +35,25 @@ var bitcoind = require('../').services.Bitcoin({
   }
 });
 
-bitcoind.on('error', function(err) {
+digibyted.on('error', function(err) {
   console.error(err.message);
 });
 
-bitcoind.start(function(err) {
+digibyted.start(function(err) {
   if (err) {
     throw err;
   }
   console.log('DigiByte Core started');
 });
 
-bitcoind.on('ready', function() {
+digibyted.on('ready', function() {
 
   console.log('DigiByte Core ready');
 
-  var client = new bitcoin.Client({
+  var client = new digibyte.Client({
     host: 'localhost',
     port: 19332,
-    user: 'bitcoin',
+    user: 'digibyte',
     pass: 'local321'
   });
 
@@ -64,12 +64,12 @@ bitcoind.on('ready', function() {
       var hashesLength = fixtureData.blockHashes.length;
       var txLength = fixtureData.txHashes.length;
 
-      function bitcoindGetBlockNative(deffered) {
+      function digibytedGetBlockNative(deffered) {
         if (c >= hashesLength) {
           c = 0;
         }
         var hash = fixtureData.blockHashes[c];
-        bitcoind.getBlock(hash, function(err, block) {
+        digibyted.getBlock(hash, function(err, block) {
           if (err) {
             throw err;
           }
@@ -78,7 +78,7 @@ bitcoind.on('ready', function() {
         c++;
       }
 
-      function bitcoindGetBlockJsonRpc(deffered) {
+      function digibytedGetBlockJsonRpc(deffered) {
         if (c >= hashesLength) {
           c = 0;
         }
@@ -92,12 +92,12 @@ bitcoind.on('ready', function() {
         c++;
       }
 
-      function bitcoinGetTransactionNative(deffered) {
+      function digibyteGetTransactionNative(deffered) {
         if (c >= txLength) {
           c = 0;
         }
         var hash = fixtureData.txHashes[c];
-        bitcoind.getTransaction(hash, true, function(err, tx) {
+        digibyted.getTransaction(hash, true, function(err, tx) {
           if (err) {
             throw err;
           }
@@ -106,7 +106,7 @@ bitcoind.on('ready', function() {
         c++;
       }
 
-      function bitcoinGetTransactionJsonRpc(deffered) {
+      function digibyteGetTransactionJsonRpc(deffered) {
         if (c >= txLength) {
           c = 0;
         }
@@ -122,22 +122,22 @@ bitcoind.on('ready', function() {
 
       var suite = new benchmark.Suite();
 
-      suite.add('digibyted getblock (native)', bitcoindGetBlockNative, {
+      suite.add('digibyted getblock (native)', digibytedGetBlockNative, {
         defer: true,
         maxTime: maxTime
       });
 
-      suite.add('digibyted getblock (json rpc)', bitcoindGetBlockJsonRpc, {
+      suite.add('digibyted getblock (json rpc)', digibytedGetBlockJsonRpc, {
         defer: true,
         maxTime: maxTime
       });
 
-      suite.add('digibyted gettransaction (native)', bitcoinGetTransactionNative, {
+      suite.add('digibyted gettransaction (native)', digibyteGetTransactionNative, {
         defer: true,
         maxTime: maxTime
       });
 
-      suite.add('digibyted gettransaction (json rpc)', bitcoinGetTransactionJsonRpc, {
+      suite.add('digibyted gettransaction (json rpc)', digibyteGetTransactionJsonRpc, {
         defer: true,
         maxTime: maxTime
       });
@@ -158,7 +158,7 @@ bitcoind.on('ready', function() {
       throw err;
     }
     console.log('Finished');
-    bitcoind.stop(function(err) {
+    digibyted.stop(function(err) {
       if (err) {
         console.error('Fail to stop services: ' + err);
         process.exit(1);

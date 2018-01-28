@@ -4,7 +4,7 @@ var path = require('path');
 var async = require('async');
 var spawn = require('child_process').spawn;
 
-var BitcoinRPC = require('digibyted-rpc');
+var DigiByteRPC = require('digibyted-rpc');
 var rimraf = require('rimraf');
 var bitcore = require('digibyte');
 var chai = require('chai');
@@ -14,7 +14,7 @@ var index = require('..');
 var log = index.log;
 log.debug = function() {};
 var BitcoreNode = index.Node;
-var BitcoinService = index.services.Bitcoin;
+var DigiByteService = index.services.DigiByte;
 
 describe('DigiByte Cluster', function() {
   var node;
@@ -67,7 +67,7 @@ describe('DigiByte Cluster', function() {
 
         var process = spawn(execPath, opts, {stdio: 'inherit'});
 
-        var client = new BitcoinRPC({
+        var client = new DigiByteRPC({
           protocol: 'http',
           host: '127.0.0.1',
           port: nodeConf.rpcport,
@@ -103,7 +103,7 @@ describe('DigiByte Cluster', function() {
       services: [
         {
           name: 'digibyted',
-          module: BitcoinService,
+          module: DigiByteService,
           config: {
             connect: [
               {

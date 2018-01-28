@@ -22,7 +22,7 @@ coverage/*
 **/*.creator
 *.log
 .DS_Store
-bin/bitcoin*
+bin/digibyte*
 bin/digibyte*
 !bin/digibyte-node
 bin/SHA256SUMS.asc

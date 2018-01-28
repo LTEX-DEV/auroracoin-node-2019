@@ -1,46 +1,46 @@
-# Bitcoin Service
+# DigiByte Service
 
-The Bitcoin Service is a Node.js interface to [Bitcoin Core](https://github.com/bitcoin/bitcoin) for querying information about the bitcoin block chain. It will manage starting and stopping `bitcoind` or connect to several running `bitcoind` processes. It uses a branch of a [branch of Bitcoin Core](https://github.com/bitpay/bitcoin/tree/0.12.1-bitcore) with additional indexes for querying information about addresses and blocks. Results are cached for performance and there are several additional API methods added for common queries.
+The DigiByte Service is a Node.js interface to [DigiByte Core](https://github.com/digibyte/digibyte) for querying information about the digibyte block chain. It will manage starting and stopping `digibyted` or connect to several running `digibyted` processes. It uses a branch of a [branch of DigiByte Core](https://github.com/bitpay/digibyte/tree/0.12.1-bitcore) with additional indexes for querying information about addresses and blocks. Results are cached for performance and there are several additional API methods added for common queries.
 
 ## Configuration
 
-The default configuration will include a "spawn" configuration in "bitcoind". This defines the location of the block chain database and the location of the `bitcoind` daemon executable. The below configuration points to a local clone of `bitcoin`, and will start `bitcoind` automatically with your Node.js application.
+The default configuration will include a "spawn" configuration in "digibyted". This defines the location of the block chain database and the location of the `digibyted` daemon executable. The below configuration points to a local clone of `digibyte`, and will start `digibyted` automatically with your Node.js application.
 
 ```json
   "servicesConfig": {
-    "bitcoind": {
+    "digibyted": {
       "spawn": {
-        "datadir": "/home/bitcore/.bitcoin",
-        "exec": "/home/bitcore/bitcoin/src/bitcoind"
+        "datadir": "/home/bitcore/.digibyte",
+        "exec": "/home/bitcore/digibyte/src/digibyted"
       }
     }
   }
 ```
 
-It's also possible to connect to separately managed `bitcoind` processes with round-robin quering, for example:
+It's also possible to connect to separately managed `digibyted` processes with round-robin quering, for example:
 
 ```json
   "servicesConfig": {
-    "bitcoind": {
+    "digibyted": {
       "connect": [
         {
           "rpchost": "127.0.0.1",
           "rpcport": 30521,
-          "rpcuser": "bitcoin",
+          "rpcuser": "digibyte",
           "rpcpassword": "local321",
           "zmqpubrawtx": "tcp://127.0.0.1:30611"
         },
         {
           "rpchost": "127.0.0.1",
           "rpcport": 30522,
-          "rpcuser": "bitcoin",
+          "rpcuser": "digibyte",
           "rpcpassword": "local321",
           "zmqpubrawtx": "tcp://127.0.0.1:30622"
         },
         {
           "rpchost": "127.0.0.1",
           "rpcport": 30523,
-          "rpcuser": "bitcoin",
+          "rpcuser": "digibyte",
           "rpcpassword": "local321",
           "zmqpubrawtx": "tcp://127.0.0.1:30633"
         }
@@ -217,7 +217,7 @@ node.services.digibyted.getAddressBalance(address, options, function(err, balanc
 
 This method will give history of an address limited by a range of block heights by using the "start" and "end" arguments. The "start" value is the more recent, and greater, block height. The "end" value is the older, and lesser, block height. This feature is most useful for synchronization as previous history can be omitted. Furthermore for large ranges of block heights, results can be paginated by using the "from" and "to" arguments.
 
-If "queryMempool" is set as true (it is true by default), it will show unconfirmed transactions from the bitcoin mempool. However, if you specify "start" and "end", "queryMempool" is ignored and is always false.
+If "queryMempool" is set as true (it is true by default), it will show unconfirmed transactions from the digibyte mempool. However, if you specify "start" and "end", "queryMempool" is ignored and is always false.
 
 If "queryMempoolOnly" is set as true (it is false by default), it will show *only* unconfirmed transactions from mempool.
 
@@ -290,7 +290,7 @@ The `summary` will have the format (values are in satoshis):
 
 
 ## Events
-The Bitcoin Service exposes two events via the Bus, and there are a few events that can be directly registered:
+The DigiByte Service exposes two events via the Bus, and there are a few events that can be directly registered:
 
 ```js
 node.services.digibyted.on('tip', function(blockHash) {
@@ -307,26 +307,26 @@ node.services.digibyted.on('block', function(blockHash) {
 ```
 
 For details on instantiating a bus for a node, see the [Bus Documentation](../bus.md).
-- Name: `bitcoind/rawtransaction`
-- Name: `bitcoind/hashblock`
-- Name: `bitcoind/addresstxid`, Arguments: [address, address...]
+- Name: `digibyted/rawtransaction`
+- Name: `digibyted/hashblock`
+- Name: `digibyted/addresstxid`, Arguments: [address, address...]
 
 **Examples:**
 
 ```js
-bus.subscribe('bitcoind/rawtransaction');
-bus.subscribe('bitcoind/hashblock');
-bus.subscribe('bitcoind/addresstxid', ['13FMwCYz3hUhwPcaWuD2M1U2KzfTtvLM89']);
+bus.subscribe('digibyted/rawtransaction');
+bus.subscribe('digibyted/hashblock');
+bus.subscribe('digibyted/addresstxid', ['13FMwCYz3hUhwPcaWuD2M1U2KzfTtvLM89']);
 
-bus.on('bitcoind/rawtransaction', function(transactionHex) {
+bus.on('digibyted/rawtransaction', function(transactionHex) {
   //...
 });
 
-bus.on('bitcoind/hashblock', function(blockhashHex) {
+bus.on('digibyted/hashblock', function(blockhashHex) {
   //...
 });
 
-bus.on('bitcoind/addresstxid', function(data) {
+bus.on('digibyted/addresstxid', function(data) {
   // data.address;
   // data.txid;
 });

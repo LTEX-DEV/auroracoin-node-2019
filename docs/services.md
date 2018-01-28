@@ -37,7 +37,7 @@ If, instead, you would like to run a custom node, you can include services by in
 var digibyte = require('digibyte-node');
 
 //Services
-var Bitcoin = digibyte.services.Bitcoin;
+var DigiByte = digibyte.services.DigiByte;
 var Web = digibyte.services.Web;
 
 var myNode = new digibyte.Node({

@@ -3,7 +3,7 @@
 var should = require('chai').should();
 var sinon = require('sinon');
 var proxyquire = require('proxyquire');
-var BitcoinService = require('../../lib/services/bitcoind');
+var DigiByteService = require('../../lib/services/digibyted');
 var index = require('../../lib');
 var log = index.log;
 
@@ -24,7 +24,7 @@ describe('#start', function() {
       var TestNode = function(options) {
         options.services[0].should.deep.equal({
           name: 'digibyted',
-          module: BitcoinService,
+          module: DigiByteService,
           config: {
             spawn: {
               datadir: './data'
@@ -92,7 +92,7 @@ describe('#start', function() {
       var TestNode = function(options) {
         options.services[0].should.deep.equal({
           name: 'digibyted',
-          module: BitcoinService,
+          module: DigiByteService,
           config: {
             param: 'test',
             spawn: {

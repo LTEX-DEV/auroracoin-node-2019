@@ -15,7 +15,7 @@ A node represents a collection of services that are loaded together. For more in
 ```js
 
 var index = require('digibyte-node');
-var Bitcoin = index.services.Bitcoin;
+var DigiByte = index.services.DigiByte;
 var Node = index.Node;
 
 var configuration = {
@@ -24,7 +24,7 @@ var configuration = {
   services: [
     {
       name: 'digibyted',
-      module: Bitcoin,
+      module: DigiByte,
       config: {}
     }
   ]
