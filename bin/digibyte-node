@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-
-var digibyte = require('../lib/cli/bitcore');
-digibyte();

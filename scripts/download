@@ -6,30 +6,30 @@ root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 platform=`uname -a | awk '{print tolower($1)}'`
 arch=`uname -m`
 version="0.13.5"
-url="https://github.com/digicontributer/digibytejs-digibyte-core/releases/download"
+url="https://github.com/digicontributer/auroracoinjs-auroracoin-core/releases/download"
 tag="v0.13.5"
 
 if [ "${platform}" == "linux" ]; then
     if [ "${arch}" == "x86_64" ]; then
-        tarball_name="digibyte-${version}-x86_64-linux-gnu.tar.gz"
+        tarball_name="auroracoin-${version}-x86_64-linux-gnu.tar.gz"
     elif [ "${arch}" == "x86_32" ]; then
-        tarball_name="digibyte-${version}-i686-pc-linux-gnu.tar.gz"
+        tarball_name="auroracoin-${version}-i686-pc-linux-gnu.tar.gz"
     fi
 elif [ "${platform}" == "darwin" ]; then
-    tarball_name="digibyte-${version}-osx64.tar.gz"
+    tarball_name="auroracoin-${version}-osx64.tar.gz"
 else
-    echo "DigiByte binary distribution not available for platform and architecture"
+    echo "Auroracoin binary distribution not available for platform and architecture"
     exit -1
 fi
 
 binary_url="${url}/${tag}/${tarball_name}"
 shasums_url="${url}/${tag}/SHA256SUMS.asc"
 
-download_digibyted() {
+download_auroracoind() {
 
     cd "${root_dir}/bin"
 
-    echo "Downloading digibyte: ${binary_url}"
+    echo "Downloading auroracoin: ${binary_url}"
 
     is_curl=true
     if hash curl 2>/dev/null; then
@@ -48,20 +48,20 @@ download_digibyted() {
             wget $shasums_url
         fi
         if test -e "${tarball_name}"; then
-            echo "Unpacking digibyte distribution"
+            echo "Unpacking auroracoin distribution"
             tar -xvzf $tarball_name
             if test $? -eq 0; then
-                ln -sf "digibyte-${version}/bin/digibyted"
+                ln -sf "auroracoin-${version}/bin/auroracoind"
                 return;
             fi
         fi
     fi
-    echo "DigiByte binary distribution could not be downloaded"
+    echo "Auroracoin binary distribution could not be downloaded"
     exit -1
 }
 
 verify_download() {
-    echo "Verifying signatures of digibyte download"
+    echo "Verifying signatures of auroracoin download"
     gpg --verify "${root_dir}/bin/SHA256SUMS.asc"
 
     if hash shasum 2>/dev/null; then
@@ -98,10 +98,10 @@ while [ -n "$1" ]; do
   value="$2"
 
   case $param in
-    --skip-digibyte-download)
+    --skip-auroracoin-download)
           download=0
           ;;
-    --verify-digibyte-download)
+    --verify-auroracoin-download)
           verify=1
           ;;
   esac
@@ -109,7 +109,7 @@ while [ -n "$1" ]; do
 done
 
 if [ "${download}" = 1 ]; then
-    download_digibyted
+    download_auroracoind
 fi
 
 if [ "${verify}" = 1 ]; then

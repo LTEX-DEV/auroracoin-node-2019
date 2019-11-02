@@ -12,10 +12,10 @@ describe('#defaultBaseConfig', function() {
     info.path.should.equal(cwd);
     info.config.network.should.equal('livenet');
     info.config.port.should.equal(3001);
-    info.config.services.should.deep.equal(['digibyted', 'web']);
-    var digibyted = info.config.servicesConfig.digibyted;
-    digibyted.spawn.datadir.should.equal(home + '/.digibyte');
-    digibyted.spawn.exec.should.equal(path.resolve(__dirname, '../../bin/digibyted'));
+    info.config.services.should.deep.equal(['auroracoind', 'web']);
+    var auroracoind = info.config.servicesConfig.auroracoind;
+    auroracoind.spawn.datadir.should.equal(home + '/.auroracoin');
+    auroracoind.spawn.exec.should.equal(path.resolve(__dirname, '../../bin/auroracoind'));
   });
   it('be able to specify a network', function() {
     var info = defaultBaseConfig({network: 'testnet'});
@@ -23,6 +23,6 @@ describe('#defaultBaseConfig', function() {
   });
   it('be able to specify a datadir', function() {
     var info = defaultBaseConfig({datadir: './data2', network: 'testnet'});
-    info.config.servicesConfig.digibyted.spawn.datadir.should.equal('./data2');
+    info.config.servicesConfig.auroracoind.spawn.datadir.should.equal('./data2');
   });
 });

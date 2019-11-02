@@ -9,17 +9,17 @@ var log = index.log;
 log.debug = function() {};
 
 var chai = require('chai');
-var bitcore = require('digibyte');
+var bitcore = require('auroracoin');
 var rimraf = require('rimraf');
 var node;
 
 var should = chai.should();
 
-var DigiByteRPC = require('digibyted-rpc');
+var AuroracoinRPC = require('auroracoind-rpc');
 var index = require('..');
 var Transaction = bitcore.Transaction;
 var BitcoreNode = index.Node;
-var DigiByteService = index.services.DigiByte;
+var AuroracoinService = index.services.Auroracoin;
 var testWIF = 'cSdkPxkAjA4HDr5VHgsebAPDEh9Gyub4HK8UJr2DFGGqKKy4K5sG';
 var testKey;
 var client;
@@ -48,12 +48,12 @@ describe('Node Functionality', function() {
         network: 'regtest',
         services: [
           {
-            name: 'digibyted',
-            module: DigiByteService,
+            name: 'auroracoind',
+            module: AuroracoinService,
             config: {
               spawn: {
                 datadir: datadir,
-                exec: path.resolve(__dirname, '../bin/digibyted')
+                exec: path.resolve(__dirname, '../bin/auroracoind')
               }
             }
           }
@@ -74,23 +74,23 @@ describe('Node Functionality', function() {
           return done(err);
         }
 
-        client = new DigiByteRPC({
+        client = new AuroracoinRPC({
           protocol: 'http',
           host: '127.0.0.1',
           port: 30331,
-          user: 'digibyte',
+          user: 'auroracoin',
           pass: 'local321',
           rejectUnauthorized: false
         });
 
         var syncedHandler = function() {
-          if (node.services.digibyted.height === 150) {
-            node.services.digibyted.removeListener('synced', syncedHandler);
+          if (node.services.auroracoind.height === 150) {
+            node.services.auroracoind.removeListener('synced', syncedHandler);
             done();
           }
         };
 
-        node.services.digibyted.on('synced', syncedHandler);
+        node.services.auroracoind.on('synced', syncedHandler);
 
         client.generate(150, function(err) {
           if (err) {
@@ -119,9 +119,9 @@ describe('Node Functionality', function() {
       var bus = node.openBus();
       var blockExpected;
       var blockReceived;
-      bus.subscribe('digibyted/hashblock');
-      bus.on('digibyted/hashblock', function(data) {
-        bus.unsubscribe('digibyted/hashblock');
+      bus.subscribe('auroracoind/hashblock');
+      bus.on('auroracoind/hashblock', function(data) {
+        bus.unsubscribe('auroracoind/hashblock');
         if (blockExpected) {
           data.should.be.equal(blockExpected);
           done();
@@ -149,8 +149,8 @@ describe('Node Functionality', function() {
     before(function(done) {
       this.timeout(10000);
       address = testKey.toAddress(regtest).toString();
-      var startHeight = node.services.digibyted.height;
-      node.services.digibyted.on('tip', function(height) {
+      var startHeight = node.services.auroracoind.height;
+      node.services.auroracoind.on('tip', function(height) {
         if (height === startHeight + 3) {
           done();
         }
@@ -205,7 +205,7 @@ describe('Node Functionality', function() {
         info.satoshis.should.equal(10 * 1e8);
         info.confirmations.should.equal(3);
         info.tx.blockTimestamp.should.be.a('number');
-        info.tx.feeSatoshis.should.be.within(9500, 40000); // TODO: Not sure how the fee is calculated in digibyted, start at rpcwallet.cpp sendtoaddress()
+        info.tx.feeSatoshis.should.be.within(9500, 40000); // TODO: Not sure how the fee is calculated in auroracoind, start at rpcwallet.cpp sendtoaddress()
         done();
       });
     });
@@ -248,8 +248,8 @@ describe('Node Functionality', function() {
         /* jshint maxstatements: 50 */
 
         // Finished once all blocks have been mined
-        var startHeight = node.services.digibyted.height;
-        node.services.digibyted.on('tip', function(height) {
+        var startHeight = node.services.auroracoind.height;
+        node.services.auroracoind.on('tip', function(height) {
           if (height === startHeight + 5) {
             done();
           }
@@ -667,7 +667,7 @@ describe('Node Functionality', function() {
         tx.fee(40000);
         tx.sign(testKey);
 
-        node.services.digibyted.sendTransaction(tx.serialize(), function(err, hash) {
+        node.services.auroracoind.sendTransaction(tx.serialize(), function(err, hash) {
           node.getAddressTxids(memAddress, {}, function(err, txids) {
             if (err) {
               return done(err);

@@ -4,9 +4,9 @@ var path = require('path');
 var async = require('async');
 var spawn = require('child_process').spawn;
 
-var DigiByteRPC = require('digibyted-rpc');
+var AuroracoinRPC = require('auroracoind-rpc');
 var rimraf = require('rimraf');
-var bitcore = require('digibyte');
+var bitcore = require('auroracoin');
 var chai = require('chai');
 var should = chai.should();
 
@@ -14,17 +14,17 @@ var index = require('..');
 var log = index.log;
 log.debug = function() {};
 var BitcoreNode = index.Node;
-var DigiByteService = index.services.DigiByte;
+var AuroracoinService = index.services.Auroracoin;
 
-describe('DigiByte Cluster', function() {
+describe('Auroracoin Cluster', function() {
   var node;
   var daemons = [];
-  var execPath = path.resolve(__dirname, '../bin/digibyted');
+  var execPath = path.resolve(__dirname, '../bin/auroracoind');
   var nodesConf = [
     {
       datadir: path.resolve(__dirname, './data/node1'),
-      conf: path.resolve(__dirname, './data/node1/digibyte.conf'),
-      rpcuser: 'digibyte',
+      conf: path.resolve(__dirname, './data/node1/auroracoin.conf'),
+      rpcuser: 'auroracoin',
       rpcpassword: 'local321',
       rpcport: 30521,
       zmqpubrawtx: 'tcp://127.0.0.1:30611',
@@ -32,8 +32,8 @@ describe('DigiByte Cluster', function() {
     },
     {
       datadir: path.resolve(__dirname, './data/node2'),
-      conf: path.resolve(__dirname, './data/node2/digibyte.conf'),
-      rpcuser: 'digibyte',
+      conf: path.resolve(__dirname, './data/node2/auroracoin.conf'),
+      rpcuser: 'auroracoin',
       rpcpassword: 'local321',
       rpcport: 30522,
       zmqpubrawtx: 'tcp://127.0.0.1:30622',
@@ -41,8 +41,8 @@ describe('DigiByte Cluster', function() {
     },
     {
       datadir: path.resolve(__dirname, './data/node3'),
-      conf: path.resolve(__dirname, './data/node3/digibyte.conf'),
-      rpcuser: 'digibyte',
+      conf: path.resolve(__dirname, './data/node3/auroracoin.conf'),
+      rpcuser: 'auroracoin',
       rpcpassword: 'local321',
       rpcport: 30523,
       zmqpubrawtx: 'tcp://127.0.0.1:30633',
@@ -51,7 +51,7 @@ describe('DigiByte Cluster', function() {
   ];
 
   before(function(done) {
-    log.info('Starting 3 digibyted daemons');
+    log.info('Starting 3 auroracoind daemons');
     this.timeout(60000);
     async.each(nodesConf, function(nodeConf, next) {
       var opts = [
@@ -67,7 +67,7 @@ describe('DigiByte Cluster', function() {
 
         var process = spawn(execPath, opts, {stdio: 'inherit'});
 
-        var client = new DigiByteRPC({
+        var client = new AuroracoinRPC({
           protocol: 'http',
           host: '127.0.0.1',
           port: nodeConf.rpcport,
@@ -96,34 +96,34 @@ describe('DigiByte Cluster', function() {
     }, 1000);
   });
 
-  it('step 1: will connect to three digibyted daemons', function(done) {
+  it('step 1: will connect to three auroracoind daemons', function(done) {
     this.timeout(20000);
     var configuration = {
       network: 'regtest',
       services: [
         {
-          name: 'digibyted',
-          module: DigiByteService,
+          name: 'auroracoind',
+          module: AuroracoinService,
           config: {
             connect: [
               {
                 rpchost: '127.0.0.1',
                 rpcport: 30521,
-                rpcuser: 'digibyte',
+                rpcuser: 'auroracoin',
                 rpcpassword: 'local321',
                 zmqpubrawtx: 'tcp://127.0.0.1:30611'
               },
               {
                 rpchost: '127.0.0.1',
                 rpcport: 30522,
-                rpcuser: 'digibyte',
+                rpcuser: 'auroracoin',
                 rpcpassword: 'local321',
                 zmqpubrawtx: 'tcp://127.0.0.1:30622'
               },
               {
                 rpchost: '127.0.0.1',
                 rpcport: 30523,
-                rpcuser: 'digibyte',
+                rpcuser: 'auroracoin',
                 rpcpassword: 'local321',
                 zmqpubrawtx: 'tcp://127.0.0.1:30633'
               }
@@ -156,7 +156,7 @@ describe('DigiByte Cluster', function() {
 
   it('step 2: receive block events', function(done) {
     this.timeout(10000);
-    node.services.digibyted.once('tip', function(height) {
+    node.services.auroracoind.once('tip', function(height) {
       height.should.equal(1);
       done();
     });

@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+var auroracoin = require('../lib/cli/bitcore');
+auroracoin();

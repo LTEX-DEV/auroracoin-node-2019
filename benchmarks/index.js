@@ -1,15 +1,15 @@
 'use strict';
 
 var benchmark = require('benchmark');
-var digibyte = require('digibyte');
+var auroracoin = require('auroracoin');
 var async = require('async');
 var maxTime = 20;
 
-console.log('DigiByte Service native interface vs. DigiByte JSON RPC interface');
+console.log('Auroracoin Service native interface vs. Auroracoin JSON RPC interface');
 console.log('----------------------------------------------------------------------');
 
 // To run the benchmarks a fully synced Bitcore Core directory is needed. The RPC comands
-// can be modified to match the settings in digibyte.conf.
+// can be modified to match the settings in auroracoin.conf.
 
 var fixtureData = {
   blockHashes: [
@@ -26,34 +26,34 @@ var fixtureData = {
   ]
 };
 
-var digibyted = require('../').services.DigiByte({
+var auroracoind = require('../').services.Auroracoin({
   node: {
-    datadir: process.env.HOME + '/.digibyte',
+    datadir: process.env.HOME + '/.auroracoin',
     network: {
       name: 'testnet'
     }
   }
 });
 
-digibyted.on('error', function(err) {
+auroracoind.on('error', function(err) {
   console.error(err.message);
 });
 
-digibyted.start(function(err) {
+auroracoind.start(function(err) {
   if (err) {
     throw err;
   }
-  console.log('DigiByte Core started');
+  console.log('Auroracoin Core started');
 });
 
-digibyted.on('ready', function() {
+auroracoind.on('ready', function() {
 
-  console.log('DigiByte Core ready');
+  console.log('Auroracoin Core ready');
 
-  var client = new digibyte.Client({
+  var client = new auroracoin.Client({
     host: 'localhost',
     port: 19332,
-    user: 'digibyte',
+    user: 'auroracoin',
     pass: 'local321'
   });
 
@@ -64,12 +64,12 @@ digibyted.on('ready', function() {
       var hashesLength = fixtureData.blockHashes.length;
       var txLength = fixtureData.txHashes.length;
 
-      function digibytedGetBlockNative(deffered) {
+      function auroracoindGetBlockNative(deffered) {
         if (c >= hashesLength) {
           c = 0;
         }
         var hash = fixtureData.blockHashes[c];
-        digibyted.getBlock(hash, function(err, block) {
+        auroracoind.getBlock(hash, function(err, block) {
           if (err) {
             throw err;
           }
@@ -78,7 +78,7 @@ digibyted.on('ready', function() {
         c++;
       }
 
-      function digibytedGetBlockJsonRpc(deffered) {
+      function auroracoindGetBlockJsonRpc(deffered) {
         if (c >= hashesLength) {
           c = 0;
         }
@@ -92,12 +92,12 @@ digibyted.on('ready', function() {
         c++;
       }
 
-      function digibyteGetTransactionNative(deffered) {
+      function auroracoinGetTransactionNative(deffered) {
         if (c >= txLength) {
           c = 0;
         }
         var hash = fixtureData.txHashes[c];
-        digibyted.getTransaction(hash, true, function(err, tx) {
+        auroracoind.getTransaction(hash, true, function(err, tx) {
           if (err) {
             throw err;
           }
@@ -106,7 +106,7 @@ digibyted.on('ready', function() {
         c++;
       }
 
-      function digibyteGetTransactionJsonRpc(deffered) {
+      function auroracoinGetTransactionJsonRpc(deffered) {
         if (c >= txLength) {
           c = 0;
         }
@@ -122,22 +122,22 @@ digibyted.on('ready', function() {
 
       var suite = new benchmark.Suite();
 
-      suite.add('digibyted getblock (native)', digibytedGetBlockNative, {
+      suite.add('auroracoind getblock (native)', auroracoindGetBlockNative, {
         defer: true,
         maxTime: maxTime
       });
 
-      suite.add('digibyted getblock (json rpc)', digibytedGetBlockJsonRpc, {
+      suite.add('auroracoind getblock (json rpc)', auroracoindGetBlockJsonRpc, {
         defer: true,
         maxTime: maxTime
       });
 
-      suite.add('digibyted gettransaction (native)', digibyteGetTransactionNative, {
+      suite.add('auroracoind gettransaction (native)', auroracoinGetTransactionNative, {
         defer: true,
         maxTime: maxTime
       });
 
-      suite.add('digibyted gettransaction (json rpc)', digibyteGetTransactionJsonRpc, {
+      suite.add('auroracoind gettransaction (json rpc)', auroracoinGetTransactionJsonRpc, {
         defer: true,
         maxTime: maxTime
       });
@@ -158,7 +158,7 @@ digibyted.on('ready', function() {
       throw err;
     }
     console.log('Finished');
-    digibyted.stop(function(err) {
+    auroracoind.stop(function(err) {
       if (err) {
         console.error('Fail to stop services: ' + err);
         process.exit(1);

@@ -5,12 +5,12 @@ Bitcore Node has a service module system that can start up additional services t
 - HTTP routes
 - Event types to publish and subscribe
 
-The `digibyte-node.json` file describes which services will load for a node:
+The `auroracoin-node.json` file describes which services will load for a node:
 
 ```json
 {
   "services": [
-    "digibyted", "web"
+    "auroracoind", "web"
   ]
 }
 ```
@@ -20,36 +20,36 @@ Services correspond with a Node.js module as described in 'package.json', for ex
 ```json
 {
   "dependencies": {
-    "digibyte": "^0.1.0",
-    "digibyte-node": "^0.2.0",
+    "auroracoin": "^0.1.0",
+    "auroracoin-node": "^0.2.0",
     "insight-api": "^3.0.0"
   }
 }
 ```
 
-_Note:_ If you already have a digibyte-node database, and you want to query data from previous blocks in the blockchain, you will need to reindex. Reindexing right now means deleting your digibyte-node database and resyncing.
+_Note:_ If you already have a auroracoin-node database, and you want to query data from previous blocks in the blockchain, you will need to reindex. Reindexing right now means deleting your auroracoin-node database and resyncing.
 
 ## Using Services Programmatically
 If, instead, you would like to run a custom node, you can include services by including them in your configuration object when initializing a new node.
 
 ```js
-//Require digibyte
-var digibyte = require('digibyte-node');
+//Require auroracoin
+var auroracoin = require('auroracoin-node');
 
 //Services
-var DigiByte = digibyte.services.DigiByte;
-var Web = digibyte.services.Web;
+var Auroracoin = auroracoin.services.Auroracoin;
+var Web = auroracoin.services.Web;
 
-var myNode = new digibyte.Node({
+var myNode = new auroracoin.Node({
   network: 'regtest'
   services: [
     {
-      name: 'digibyted',
-      module: DigiByte,
+      name: 'auroracoind',
+      module: Auroracoin,
       config: {
         spawn: {
-          datadir: '/home/<username>/.digibyte',
-          exec: '/home/<username>/digibyte-node/bin/digibyted'
+          datadir: '/home/<username>/.auroracoin',
+          exec: '/home/<username>/auroracoin-node/bin/auroracoind'
         }
       }
     },
@@ -67,7 +67,7 @@ var myNode = new digibyte.Node({
 Now that you've loaded your services you can access them via `myNode.services.<service-name>.<method-name>`. For example if you wanted to check the balance of an address, you could access the address service like so.
 
 ```js
-myNode.services.digibyted.getAddressBalance('1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v', false, function(err, total) {
+myNode.services.auroracoind.getAddressBalance('1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v', false, function(err, total) {
   console.log(total.balance); //Satoshi amount of this address
 });
 ```
@@ -82,7 +82,7 @@ A new service can be created by inheriting from `Node.Service` and implementing 
 - `Service.prototype.getPublishEvents()` - Describes which events can be subscribed to for this service, useful to subscribe to events over the included web socket API.
 - `Service.prototype.setupRoutes()` - A service can extend HTTP routes on an express application by implementing this method.
 
-The `package.json` for the service module can either export the `Node.Service` directly, or specify a specific module to load by including `"digibyteNode": "lib/digibyte-node.js"`.
+The `package.json` for the service module can either export the `Node.Service` directly, or specify a specific module to load by including `"auroracoinNode": "lib/auroracoin-node.js"`.
 
 Please take a look at some of the existing services for implementation specifics.
 

@@ -6,20 +6,20 @@ var sinon = require('sinon');
 var proxyquire = require('proxyquire');
 
 describe('#defaultConfig', function() {
-  var expectedExecPath = path.resolve(__dirname, '../../bin/digibyted');
+  var expectedExecPath = path.resolve(__dirname, '../../bin/auroracoind');
 
   it('will return expected configuration', function() {
     var config = JSON.stringify({
       network: 'livenet',
       port: 3001,
       services: [
-        'digibyted',
+        'auroracoind',
         'web'
       ],
       servicesConfig: {
-        digibyted: {
+        auroracoind: {
           spawn: {
-            datadir: process.env.HOME + '/.digibyte/data',
+            datadir: process.env.HOME + '/.auroracoin/data',
             exec: expectedExecPath
           }
         }
@@ -29,7 +29,7 @@ describe('#defaultConfig', function() {
       fs: {
         existsSync: sinon.stub().returns(false),
         writeFileSync: function(path, data) {
-          path.should.equal(process.env.HOME + '/.digibyte/digibyte-node.json');
+          path.should.equal(process.env.HOME + '/.auroracoin/auroracoin-node.json');
           data.should.equal(config);
         },
         readFileSync: function() {
@@ -42,29 +42,29 @@ describe('#defaultConfig', function() {
     });
     var home = process.env.HOME;
     var info = defaultConfig();
-    info.path.should.equal(home + '/.digibyte');
+    info.path.should.equal(home + '/.auroracoin');
     info.config.network.should.equal('livenet');
     info.config.port.should.equal(3001);
-    info.config.services.should.deep.equal(['digibyted', 'web']);
-    var digibyted = info.config.servicesConfig.digibyted;
-    should.exist(digibyted);
-    digibyted.spawn.datadir.should.equal(home + '/.digibyte/data');
-    digibyted.spawn.exec.should.equal(expectedExecPath);
+    info.config.services.should.deep.equal(['auroracoind', 'web']);
+    var auroracoind = info.config.servicesConfig.auroracoind;
+    should.exist(auroracoind);
+    auroracoind.spawn.datadir.should.equal(home + '/.auroracoin/data');
+    auroracoind.spawn.exec.should.equal(expectedExecPath);
   });
   it('will include additional services', function() {
     var config = JSON.stringify({
       network: 'livenet',
       port: 3001,
       services: [
-        'digibyted',
+        'auroracoind',
         'web',
         'insight-api',
         'insight-ui'
       ],
       servicesConfig: {
-        digibyted: {
+        auroracoind: {
           spawn: {
-            datadir: process.env.HOME + '/.digibyte/data',
+            datadir: process.env.HOME + '/.auroracoin/data',
             exec: expectedExecPath
           }
         }
@@ -74,7 +74,7 @@ describe('#defaultConfig', function() {
       fs: {
         existsSync: sinon.stub().returns(false),
         writeFileSync: function(path, data) {
-          path.should.equal(process.env.HOME + '/.digibyte/digibyte-node.json');
+          path.should.equal(process.env.HOME + '/.auroracoin/auroracoin-node.json');
           data.should.equal(config);
         },
         readFileSync: function() {
@@ -89,18 +89,18 @@ describe('#defaultConfig', function() {
     var info = defaultConfig({
       additionalServices: ['insight-api', 'insight-ui']
     });
-    info.path.should.equal(home + '/.digibyte');
+    info.path.should.equal(home + '/.auroracoin');
     info.config.network.should.equal('livenet');
     info.config.port.should.equal(3001);
     info.config.services.should.deep.equal([
-      'digibyted',
+      'auroracoind',
       'web',
       'insight-api',
       'insight-ui'
     ]);
-    var digibyted = info.config.servicesConfig.digibyted;
-    should.exist(digibyted);
-    digibyted.spawn.datadir.should.equal(home + '/.digibyte/data');
-    digibyted.spawn.exec.should.equal(expectedExecPath);
+    var auroracoind = info.config.servicesConfig.auroracoind;
+    should.exist(auroracoind);
+    auroracoind.spawn.datadir.should.equal(home + '/.auroracoin/data');
+    auroracoind.spawn.exec.should.equal(expectedExecPath);
   });
 });

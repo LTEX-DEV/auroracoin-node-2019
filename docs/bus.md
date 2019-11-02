@@ -20,11 +20,11 @@ bus.close();
 ```javascript
 
 // subscribe to all transaction events
-bus.subscribe('digibyted/rawtransaction');
+bus.subscribe('auroracoind/rawtransaction');
 
 // to subscribe to new block hashes
-bus.subscribe('digibyted/hashblock');
+bus.subscribe('auroracoind/hashblock');
 
 // unsubscribe
-bus.unsubscribe('digibyted/rawtransaction');
+bus.unsubscribe('auroracoind/rawtransaction');
 ```

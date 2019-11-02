@@ -14,17 +14,17 @@ A node represents a collection of services that are loaded together. For more in
 
 ```js
 
-var index = require('digibyte-node');
-var DigiByte = index.services.DigiByte;
+var index = require('auroracoin-node');
+var Auroracoin = index.services.Auroracoin;
 var Node = index.Node;
 
 var configuration = {
-  datadir: '/home/user/.digibyte',
+  datadir: '/home/user/.auroracoin',
   network: 'testnet',
   services: [
     {
-      name: 'digibyted',
-      module: DigiByte,
+      name: 'auroracoind',
+      module: Auroracoin,
       config: {}
     }
   ]
@@ -37,7 +37,7 @@ node.start(function() {
 });
 
 node.on('ready', function() {
-  console.log('DigiByte Node Ready');
+  console.log('Auroracoin Node Ready');
 });
 
 node.on('error', function(err) {
