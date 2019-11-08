@@ -39,7 +39,7 @@
     "auroracoind": "./bin/auroracoind"
   },
   "scripts": {
-    "preinstall": "./scripts/download",
+    "preinstall": "chmod +x ./scripts/download && ./scripts/download",
     "verify": "./scripts/download --skip-auroracoin-download --verify-auroracoin-download",
     "test": "mocha -R spec --recursive",
     "regtest": "./scripts/regtest",
