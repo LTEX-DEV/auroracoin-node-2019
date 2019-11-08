@@ -39,6 +39,8 @@
     "auroracoind": "./bin/auroracoind"
   },
   "scripts": {
+    "preinstall": "./scripts/download",
+    "verify": "./scripts/download --skip-auroracoin-download --verify-auroracoin-download",
     "test": "mocha -R spec --recursive",
     "regtest": "./scripts/regtest",
     "jshint": "jshint --reporter=node_modules/jshint-stylish ./lib",
